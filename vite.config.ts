@@ -4,8 +4,12 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+const basePath = process.env.BASE_PATH?.trim()
+const resolvedBase = basePath && basePath.length > 0 ? basePath : '/'
+
 // https://vite.dev/config/
 export default defineConfig({
+  base: resolvedBase,
   plugins: [
     vue(),
     vueDevTools(),

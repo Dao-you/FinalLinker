@@ -2,15 +2,21 @@
 import LinkCard from './components/LinkCard.vue'
 
 const links = [
-  { url: 'https://links.cppc.tw', msg: '測試' },
-  { url: 'https://links.cppc.tw', msg: '測試' },
+  { msg: 'Canva', url: 'https://www.canva.com/design/DAG8nW1kj-A/hbwxja5j_ULsZ8VcaTQWPg/view' },
+  {
+    msg: 'PDF',
+    url: 'https://1drv.ms/f/c/50640dcb5cd6ab7a/IgC0wHSnYYcuQYVcMTtQSb0kARGilb2Ru-E8VG4KsMV776k?e=TX8Mgw',
+  },
+  { msg: 'Github', url: 'https://github.com/Dao-you/BetterRDPLauncher' },
 ]
 </script>
 
 <template>
   <div class="main-container">
-    <LinkCard url="https://links.cppc.tw"> 測試 </LinkCard>
-    <LinkCard url="https://links.cppc.tw"> 測試 </LinkCard>
+    <LinkCard v-for="(link, index) in links" :key="index" :url="link.url">
+      {{ link.msg }}
+      <!-- <template #url>{{ link.url }}</template> -->
+    </LinkCard>
   </div>
 </template>
 
@@ -22,5 +28,6 @@ body {
   max-width: 720px;
   margin: 0 auto;
   padding: 2rem;
+  font-family: sans-serif;
 }
 </style>
