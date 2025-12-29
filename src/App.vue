@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import Papa from 'papaparse'
+import Papa, { type ParseResult } from 'papaparse'
 import LinkCard from './components/LinkCard.vue'
 
 type LinkItem = { msg: string; url: string }
@@ -15,21 +15,22 @@ onMounted(async () => {
     const response = await fetch(CSV_URL, { cache: 'no-store' })
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     const text = await response.text()
-    const result = Papa.parse<{ name?: string; url?: string }>(text, {
+    const result: ParseResult<{ name?: string; url?: string }> = Papa.parse(text, {
       header: true,
       skipEmptyLines: true,
     })
 
-    if (result.errors.length > 0) {
-      throw new Error(result.errors[0].message)
+    const firstError = result.errors[0]
+    if (firstError) {
+      throw new Error(firstError.message)
     }
 
     links.value = result.data
-      .map((row) => ({
+      .map((row: { name?: string; url?: string }) => ({
         msg: (row.name || '').trim(),
         url: (row.url || '').trim(),
       }))
-      .filter((link) => link.msg.length > 0 && link.url.length > 0)
+      .filter((link: LinkItem) => link.msg.length > 0 && link.url.length > 0)
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load links'
   }
@@ -47,8 +48,6 @@ onMounted(async () => {
 </template>
 
 <style>
-body {
-}
 .main-container {
   width: 100vw;
   max-width: 720px;
