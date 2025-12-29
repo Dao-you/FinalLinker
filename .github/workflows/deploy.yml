@@ -19,6 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: production
+    env:
+      VITE_CSV_URL: ${{ vars.VITE_CSV_URL || secrets.VITE_CSV_URL || vars.CSV_URL || secrets.CSV_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,10 +29,10 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm ci
+      - run: echo "VITE_CSV_URL=$VITE_CSV_URL"
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_CSV_URL: ${{ vars.VITE_CSV_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

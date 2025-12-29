@@ -12,6 +12,7 @@ const error = ref<string | null>(null)
 
 onMounted(async () => {
   try {
+    console.log('CSV_URL', CSV_URL)
     const response = await fetch(CSV_URL, { cache: 'no-store' })
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     const text = await response.text()
