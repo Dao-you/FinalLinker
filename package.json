@@ -16,6 +16,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "papaparse": "^5.4.1",
     "vue": "^3.5.26"
   },
   "devDependencies": {
